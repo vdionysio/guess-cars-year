@@ -1,0 +1,25 @@
+# Compiled class file
+target/
+data/
+
+# Compiled JAR file
+*.jar
+
+# IntelliJ IDEA files
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Eclipse files
+.classpath
+.project
+.settings/
+
+# Logs
+logs/
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
