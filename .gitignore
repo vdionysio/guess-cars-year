@@ -1,5 +1,7 @@
 # Compiled class file
 target/
+
+# Docker volume
 data/
 
 # Compiled JAR file
