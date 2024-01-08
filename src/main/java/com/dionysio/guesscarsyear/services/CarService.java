@@ -50,6 +50,7 @@ public class CarService {
       throw new InsufficientRecordsException("Sorry, there are less than 5 cars in the database");
     } else {
       do {
+
         randomCars.add(randomCar());
       } while (randomCars.size() < 5);
     }
