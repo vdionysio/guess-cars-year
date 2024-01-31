@@ -2,6 +2,7 @@ package com.dionysio.guesscarsyear.controllers.advice;
 
 import com.dionysio.guesscarsyear.controllers.advice.Exceptions.DuplicatedIdExcpetion;
 import com.dionysio.guesscarsyear.controllers.advice.Exceptions.InsufficientRecordsException;
+import com.dionysio.guesscarsyear.controllers.advice.Exceptions.InvalidIdException;
 import java.util.Date;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,16 @@ public class ControllerAdvice {
 
     return new ErrorMessage(
         HttpStatus.BAD_REQUEST.value(),
+        new Date(),
+        ex.getMessage(),
+        request.getDescription(false));
+  }
+
+  @ExceptionHandler(InvalidIdException.class)
+  @ResponseStatus(value = HttpStatus.NOT_FOUND)
+  public ErrorMessage invalidIdException(InvalidIdException ex, WebRequest request) {
+    return new ErrorMessage(
+        HttpStatus.NOT_FOUND.value(),
         new Date(),
         ex.getMessage(),
         request.getDescription(false));

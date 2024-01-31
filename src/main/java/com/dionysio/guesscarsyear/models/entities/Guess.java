@@ -16,6 +16,8 @@ public class Guess {
 
   private int guessYear;
 
+  private int score;
+
   @ManyToOne
   @JoinColumn(name = "car_id")
   private Car car;
@@ -42,6 +44,14 @@ public class Guess {
 
   public void setGuessYear(int guessYear) {
     this.guessYear = guessYear;
+  }
+
+  public int getScore() {
+    return score;
+  }
+
+  public void setScore(int score) {
+    this.score = score;
   }
 
   public Car getCar() {
