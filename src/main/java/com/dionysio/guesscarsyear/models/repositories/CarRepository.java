@@ -2,7 +2,6 @@ package com.dionysio.guesscarsyear.models.repositories;
 
 import com.dionysio.guesscarsyear.models.entities.Car;
 
-import com.dionysio.guesscarsyear.models.entities.CarId;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

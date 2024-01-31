@@ -2,31 +2,48 @@ package com.dionysio.guesscarsyear.models.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@IdClass(CarId.class)
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"brand", "model", "year"}))
 public class Car {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
   private String brand;
-  @Id
   private String model;
-  @Id
   private int year;
   @Column(nullable = false)
   private String img;
 
+  @OneToMany(mappedBy = "car")
+  private Set<Guess> guesses;
+
   public Car() {
 
   }
+
   public Car(String brand, String model, int year, String img) {
     this.brand = brand;
     this.model = model;
     this.year = year;
     this.img = img;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public String getBrand() {
