@@ -49,19 +49,19 @@ public class GuessService {
 
     int difference = Math.abs(guessYear - carYear);
 
-    if (difference > 20) {
+    if (difference > 15) {
       guess.setScore(0);
     } else {
       if (difference == 0) {
         guess.setScore(MAX_SCORE);
       } else if (difference <= 2) {
-        guess.setScore((int) (MAX_SCORE * PROPORTION_UNTIL_2_YEARS));
+        guess.setScore((int) (MAX_SCORE * (PROPORTION_UNTIL_2_YEARS - (difference * 0.01))));
       } else if (difference <= 5) {
-        guess.setScore((int) (MAX_SCORE * PROPORTION_UNTIL_5_YEARS));
+        guess.setScore((int) (MAX_SCORE * (PROPORTION_UNTIL_5_YEARS - (difference * 0.01))));
       } else if (difference <= 10) {
-        guess.setScore((int) (MAX_SCORE * PROPORTION_UNTIL_10_YEARS));
+        guess.setScore((int) (MAX_SCORE * (PROPORTION_UNTIL_10_YEARS - (difference * 0.01))));
       } else {
-        guess.setScore((int) (MAX_SCORE * PROPORTION_UNTIL_20_YEARS));
+        guess.setScore((int) (MAX_SCORE * (PROPORTION_UNTIL_20_YEARS - (difference * 0.01))));
       }
     }
   }
