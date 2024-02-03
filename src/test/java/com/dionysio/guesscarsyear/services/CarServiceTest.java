@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
-import com.dionysio.guesscarsyear.controllers.advice.Exceptions.DuplicatedIdExcpetion;
+import com.dionysio.guesscarsyear.controllers.advice.Exceptions.DuplicatedIdException;
 import com.dionysio.guesscarsyear.controllers.advice.Exceptions.InsufficientRecordsException;
 import com.dionysio.guesscarsyear.controllers.dtos.CarDto;
 import com.dionysio.guesscarsyear.models.entities.Car;
@@ -53,7 +53,7 @@ class CarServiceTest {
     Mockito.when(carRepository.findByBrandAndModelAndYear("Ford", "Fiesta", 2013)).thenReturn(
         Optional.of(CarMapper.DtoToCar(carDto)));
 
-    assertThrows(DuplicatedIdExcpetion.class, () -> {
+    assertThrows(DuplicatedIdException.class, () -> {
       carService.addCar(carDto);
     });
   }

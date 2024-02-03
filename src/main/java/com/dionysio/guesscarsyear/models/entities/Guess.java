@@ -22,12 +22,17 @@ public class Guess {
   @JoinColumn(name = "car_id")
   private Car car;
 
+  @ManyToOne
+  @JoinColumn(name = "game_id")
+  private Game game;
+
   public Guess() {
   }
 
-  public Guess(int guessYear, Car car) {
+  public Guess(int guessYear, Car car, Game game) {
     this.guessYear = guessYear;
     this.car = car;
+    this.game = game;
   }
 
   public Long getId() {
@@ -60,5 +65,13 @@ public class Guess {
 
   public void setCar(Car car) {
     this.car = car;
+  }
+
+  public Game getGame() {
+    return game;
+  }
+
+  public void setGame(Game game) {
+    this.game = game;
   }
 }

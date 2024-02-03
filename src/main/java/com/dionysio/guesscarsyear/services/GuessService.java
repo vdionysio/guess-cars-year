@@ -1,12 +1,15 @@
 package com.dionysio.guesscarsyear.services;
 
+import com.dionysio.guesscarsyear.controllers.advice.Exceptions.GuessLimitException;
 import com.dionysio.guesscarsyear.controllers.advice.Exceptions.InvalidIdException;
 import com.dionysio.guesscarsyear.controllers.dtos.GuessDto;
 import com.dionysio.guesscarsyear.controllers.dtos.GuessFormDto;
 import com.dionysio.guesscarsyear.models.entities.Car;
+import com.dionysio.guesscarsyear.models.entities.Game;
 import com.dionysio.guesscarsyear.models.entities.Guess;
 import com.dionysio.guesscarsyear.models.mappers.GuessMapper;
 import com.dionysio.guesscarsyear.models.repositories.CarRepository;
+import com.dionysio.guesscarsyear.models.repositories.GameRepository;
 import com.dionysio.guesscarsyear.models.repositories.GuessRepository;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -22,10 +25,14 @@ public class GuessService {
   private final GuessRepository guessRepository;
   private final CarRepository carRepository;
 
+  private final GameRepository gameRepository;
 
-  public GuessService(GuessRepository guessRepository, CarRepository carRepository) {
+
+  public GuessService(GuessRepository guessRepository, CarRepository carRepository,
+      GameRepository gameRepository) {
     this.guessRepository = guessRepository;
     this.carRepository = carRepository;
+    this.gameRepository = gameRepository;
   }
 
   public GuessDto guessCarYear(GuessFormDto guessForm) {
@@ -35,7 +42,17 @@ public class GuessService {
       throw new InvalidIdException("There isn't any car with the given id.");
     }
 
-    Guess guess = GuessMapper.formDtoToGuess(guessForm, optionalCar.get());
+    Optional<Game> optionalGame = gameRepository.findById(guessForm.gameId());
+
+    if (optionalGame.isEmpty()) {
+      throw new InvalidIdException("There isn't any game with the given id.");
+    }
+
+    if (optionalGame.get().getGuesses().size() == 5) {
+      throw new GuessLimitException();
+    }
+
+    Guess guess = GuessMapper.formDtoToGuess(guessForm, optionalCar.get(), optionalGame.get());
 
     calculateScore(guess);
     guessRepository.save(guess);
@@ -64,5 +81,11 @@ public class GuessService {
         guess.setScore((int) (MAX_SCORE * (PROPORTION_UNTIL_20_YEARS - (difference * 0.01))));
       }
     }
+
+    calculateTotalScore(guess);
+  }
+
+  public void calculateTotalScore(Guess guess) {
+    guess.getGame().addScore(guess.getScore());
   }
 }

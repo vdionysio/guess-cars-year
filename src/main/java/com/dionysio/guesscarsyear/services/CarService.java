@@ -1,6 +1,6 @@
 package com.dionysio.guesscarsyear.services;
 
-import com.dionysio.guesscarsyear.controllers.advice.Exceptions.DuplicatedIdExcpetion;
+import com.dionysio.guesscarsyear.controllers.advice.Exceptions.DuplicatedIdException;
 import com.dionysio.guesscarsyear.controllers.advice.Exceptions.InsufficientRecordsException;
 import com.dionysio.guesscarsyear.controllers.dtos.CarDto;
 import com.dionysio.guesscarsyear.models.entities.Car;
@@ -26,7 +26,7 @@ public class CarService {
     Optional<Car> optionalCar = carRepository.findByBrandAndModelAndYear(
         carDto.brand(), carDto.model(), carDto.year());
     if (optionalCar.isPresent()) {
-      throw new DuplicatedIdExcpetion("This combination of brand, model and year already exists");
+      throw new DuplicatedIdException("This combination of brand, model and year already exists");
     }
     carRepository.save(CarMapper.DtoToCar(carDto));
   }

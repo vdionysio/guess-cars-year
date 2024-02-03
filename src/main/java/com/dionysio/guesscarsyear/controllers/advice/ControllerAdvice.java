@@ -1,6 +1,7 @@
 package com.dionysio.guesscarsyear.controllers.advice;
 
-import com.dionysio.guesscarsyear.controllers.advice.Exceptions.DuplicatedIdExcpetion;
+import com.dionysio.guesscarsyear.controllers.advice.Exceptions.DuplicatedIdException;
+import com.dionysio.guesscarsyear.controllers.advice.Exceptions.GuessLimitException;
 import com.dionysio.guesscarsyear.controllers.advice.Exceptions.InsufficientRecordsException;
 import com.dionysio.guesscarsyear.controllers.advice.Exceptions.InvalidIdException;
 import java.util.Date;
@@ -29,9 +30,9 @@ public class ControllerAdvice {
         request.getDescription(false));
   }
 
-  @ExceptionHandler(DuplicatedIdExcpetion.class)
+  @ExceptionHandler(DuplicatedIdException.class)
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-  public ErrorMessage duplicatedIdExcpetion(DuplicatedIdExcpetion ex,
+  public ErrorMessage duplicatedIdExcpetion(DuplicatedIdException ex,
       WebRequest request) {
 
     return new ErrorMessage(
@@ -48,6 +49,16 @@ public class ControllerAdvice {
         HttpStatus.NOT_FOUND.value(),
         new Date(),
         ex.getMessage(),
+        request.getDescription(false));
+  }
+
+  @ExceptionHandler(GuessLimitException.class)
+  @ResponseStatus(value = HttpStatus.CONFLICT)
+  public ErrorMessage guessLimitException(GuessLimitException ex, WebRequest request) {
+    return new ErrorMessage(
+        HttpStatus.CONTINUE.value(),
+        new Date(),
+        "Game must contains only 5 guesses.",
         request.getDescription(false));
   }
 
