@@ -6,6 +6,7 @@ import com.dionysio.guesscarsyear.controllers.dtos.ResponseDto;
 import com.dionysio.guesscarsyear.services.GameService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ public class GameController {
   }
 
   @PostMapping
+  @CrossOrigin(origins = "http://localhost:5173")
   public ResponseEntity<ResponseDto> createNewGame() {
     Long newGameId = gameService.createNewGame();
     return ResponseEntity.status(HttpStatus.CREATED)
@@ -30,6 +32,7 @@ public class GameController {
   }
 
   @GetMapping("/{gameId}")
+  @CrossOrigin(origins = "http://localhost:5173")
   public ResponseEntity<ResponseDto> getGame(@PathVariable Long gameId) {
     GameDto gameDto = gameService.getGame(gameId);
 

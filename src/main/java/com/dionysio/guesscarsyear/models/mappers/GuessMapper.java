@@ -14,6 +14,6 @@ public class GuessMapper {
 
   public static GuessDto guessToDto(Guess guess) {
     return new GuessDto(guess.getId(), guess.getGuessYear(), guess.getScore(),
-        guess.getCar().getId(), guess.getGame().getId());
+        guess.getCar().getId(), guess.getGame().getId(), guess.getCar().getYear());
   }
 }

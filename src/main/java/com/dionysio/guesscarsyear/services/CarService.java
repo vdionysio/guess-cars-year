@@ -2,6 +2,7 @@ package com.dionysio.guesscarsyear.services;
 
 import com.dionysio.guesscarsyear.controllers.advice.Exceptions.DuplicatedIdException;
 import com.dionysio.guesscarsyear.controllers.advice.Exceptions.InsufficientRecordsException;
+import com.dionysio.guesscarsyear.controllers.dtos.CarBasicDto;
 import com.dionysio.guesscarsyear.controllers.dtos.CarDto;
 import com.dionysio.guesscarsyear.models.entities.Car;
 import com.dionysio.guesscarsyear.models.mappers.CarMapper;
@@ -9,6 +10,7 @@ import com.dionysio.guesscarsyear.models.repositories.CarRepository;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ public class CarService {
     if (optionalCar.isPresent()) {
       throw new DuplicatedIdException("This combination of brand, model and year already exists");
     }
-    carRepository.save(CarMapper.DtoToCar(carDto));
+    carRepository.save(CarMapper.dtoToCar(carDto));
   }
 
   public Car randomCar() {
@@ -42,7 +44,7 @@ public class CarService {
     return c;
   }
 
-  public Set<Car> getFiveRandomCars() {
+  public Set<CarBasicDto> getFiveRandomCars() {
     long qty = carRepository.count();
     Set<Car> randomCars = new HashSet<>();
 
@@ -55,6 +57,6 @@ public class CarService {
       } while (randomCars.size() < 5);
     }
 
-    return randomCars;
+    return randomCars.stream().map(CarMapper::carToBasicDto).collect(Collectors.toSet());
   }
 }

@@ -51,7 +51,7 @@ class CarServiceTest {
   void testAddCar_WithDuplicatedEntries_ThrowException() {
     CarDto carDto = new CarDto("Ford", "Fiesta", 2013, "##");
     Mockito.when(carRepository.findByBrandAndModelAndYear("Ford", "Fiesta", 2013)).thenReturn(
-        Optional.of(CarMapper.DtoToCar(carDto)));
+        Optional.of(CarMapper.dtoToCar(carDto)));
 
     assertThrows(DuplicatedIdException.class, () -> {
       carService.addCar(carDto);

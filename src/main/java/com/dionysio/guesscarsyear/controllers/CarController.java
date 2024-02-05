@@ -1,5 +1,6 @@
 package com.dionysio.guesscarsyear.controllers;
 
+import com.dionysio.guesscarsyear.controllers.dtos.CarBasicDto;
 import com.dionysio.guesscarsyear.controllers.dtos.CarDto;
 import com.dionysio.guesscarsyear.controllers.dtos.ResponseDto;
 import com.dionysio.guesscarsyear.models.entities.Car;
@@ -8,6 +9,7 @@ import jakarta.validation.Valid;
 import java.util.Set;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,8 +35,9 @@ public class CarController {
   }
 
   @GetMapping
+  @CrossOrigin(origins = "http://localhost:5173")
   public ResponseEntity<ResponseDto> getFiveRandomCars() {
-    Set<Car> randomCars = carService.getFiveRandomCars();
+    Set<CarBasicDto> randomCars = carService.getFiveRandomCars();
 
     return ResponseEntity.ok(new ResponseDto("Five random cars got from db", randomCars));
   }
